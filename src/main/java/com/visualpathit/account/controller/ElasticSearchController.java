@@ -47,7 +47,7 @@ public class ElasticSearchController {
 		}*/
     	String result ="";
     	for (User user : users) {
-    	IndexResponse response = ElasticsearchUtil.trannsportClient().prepareIndex("users","user",  String.valueOf(user.getId()))
+    	IndexResponse response = ElasticsearchUtil.transportClient().prepareIndex("users","user",  String.valueOf(user.getId()))
                 .setSource(jsonBuilder()
                         .startObject()
                         .field("name", user.getUsername())
@@ -71,7 +71,7 @@ public class ElasticSearchController {
 
     @RequestMapping(value="/rest/users/view/{id}", method=RequestMethod.GET)
     public String  view(@PathVariable final String id,final Model model) {
-        GetResponse getResponse = ElasticsearchUtil.trannsportClient().prepareGet("users", "user", id).get();
+        GetResponse getResponse = ElasticsearchUtil.transportClient().prepareGet("users", "user", id).get();
         System.out.println(getResponse.getSource());
         
         model.addAttribute("res", getResponse.getSource().get("name"));
@@ -103,7 +103,7 @@ public class ElasticSearchController {
                         .field("gender", "male")
                         .endObject());
         try {
-            UpdateResponse updateResponse = ElasticsearchUtil.trannsportClient().update(updateRequest).get();
+            UpdateResponse updateResponse = ElasticsearchUtil.transportClient().update(updateRequest).get();
             System.out.println(updateResponse.status());
             model.addAttribute("res", updateResponse.status());
             return "elasticeSearchRes";
@@ -115,7 +115,7 @@ public class ElasticSearchController {
     @RequestMapping(value="/rest/users/delete/{id}", method=RequestMethod.GET)
     public String delete(@PathVariable final String id,final Model model) {
 
-        DeleteResponse deleteResponse =ElasticsearchUtil.trannsportClient().prepareDelete("employee", "id", id).get();
+        DeleteResponse deleteResponse =ElasticsearchUtil.transportClient().prepareDelete("employee", "id", id).get();
         System.out.println(deleteResponse.getResult().toString());
         model.addAttribute("res", deleteResponse.getResult().toString());
         return "elasticeSearchRes";

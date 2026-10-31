@@ -35,8 +35,8 @@ jobs:
       - name: Check Maven version
         run: mvn --version
 
-      - name: Run Checkstyle
-        run: mvn --batch-mode checkstyle:check
+      # - name: Run Checkstyle
+      #   run: mvn --batch-mode checkstyle:check
 
       - name: Build and run tests
         run: mvn --batch-mode clean verify

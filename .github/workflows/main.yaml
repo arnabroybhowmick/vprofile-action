@@ -52,7 +52,8 @@ jobs:
           -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
 
   BUILD_AND_PUBLISH:
-    needs: Testing
+    needs: build-and-analyze
+    name: Build and Publish Docker Image to ECR
     runs-on: ubuntu-latest
 
     steps:

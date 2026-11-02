@@ -60,15 +60,20 @@ jobs:
       - name: Code checkout
         uses: actions/checkout@v4
 
-      - name: Build & Upload image to ECR
-        uses: appleboy/docker-ecr-action@master
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          access_key: ${{ vars.AWS_ACCESS_KEY_ID }}
-          secret_key: ${{ vars.AWS_SECRET_ACCESS_KEY }}
-          registry: ${{ vars.REGISTRY }}
-          repo: ${{ env.ECR_REPOSITORY }}
-          region: ${{ env.AWS_REGION }}
-          tags: latest,${{ github.run_number }}
-          daemon_off: false
-          dockerfile: ./Dockerfile
-          context: ./
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and Push Docker Image
+        run: |
+          docker build -t ${{ vars.ECR_REPOSITORY }} .
+          docker tag ${{ vars.ECR_REPOSITORY }}:latest ${{ vars.REGISTRY }}/${{ vars.ECR_REPOSITORY }}:latest
+          docker tag ${{ vars.ECR_REPOSITORY }}:latest ${{ vars.REGISTRY }}/${{ vars.ECR_REPOSITORY }}:${{ github.run_number }}
+          docker push ${{ vars.REGISTRY }}/${{ vars.ECR_REPOSITORY }}:latest
+          docker push ${{ vars.REGISTRY }}/${{ vars.ECR_REPOSITORY }}:${{ github.run_number }}

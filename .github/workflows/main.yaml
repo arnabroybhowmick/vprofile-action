@@ -112,7 +112,7 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
           cluster-name: ${{ vars.EKS_CLUSTER }}
           #config-files: .github/values/dev.yaml
-          chart-path: helm/vprofilecharts/templates
+          chart-path: helm/vprofilecharts
           namespace: default
           values: appimage=${{ vars.REGISTRY }}/${{ vars.ECR_REPOSITORY }},apptag=latest
           name: vprofile-stack

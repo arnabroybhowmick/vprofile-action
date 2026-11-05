@@ -94,7 +94,7 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
 
       - name: Get Kube config file
-        run: aws eks update-kubeconfig --region ${{ vars.AWS_REGION }} --name beautiful-funk-ladybug
+        run: aws eks update-kubeconfig --region ${{ vars.AWS_REGION }} --name vprofile-eks
 
       - name: Login to ECR
         run: |

@@ -1,0 +1,16 @@
+{
+  "spec": {
+    "template": {
+      "spec": {
+        "containers": [
+          {
+            "name": "controller",
+            "livenessProbe": {
+              "initialDelaySeconds": 300
+            }
+          }
+        ]
+      }
+    }
+  }
+}
